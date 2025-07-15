@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Malla Interactiva - Turismo UNLa</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fef6f0;
+      padding: 2rem;
+      color: #333;
+    }
+    .cuatrimestre {
+      margin-bottom: 3rem;
+    }
+    .materia {
+      display: inline-block;
+      padding: 10px 15px;
+      margin: 8px;
+      border: 2px solid #9ad0c2;
+      border-radius: 10px;
+      background-color: #f9f7f7;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      position: relative;
+    }
+    .materia:hover {
+      background-color: #e4f0ea;
+    }
+    .materia:hover::after {
+      content: attr(data-correlativas);
+      position: absolute;
+      bottom: -30px;
+      left: 0;
+      background: #555;
+      color: #fff;
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      z-index: 100;
+    }
+    .completada {
+      background-color: #d4edda !important;
+      border-color: #28a745;
+    }
+    h1, h2 {
+      color: #2e4057;
+    }
+  </style>
+</head>
+<body>
+  <h1>Malla Interactiva – Licenciatura en Turismo (UNLa)</h1>
+<div class="cuatrimestre">
+  <h2>1° Año – Primer Cuatrimestre</h2>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Sin correlativas">Introducción al turismo</div>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Sin correlativas">Introducción a la geografía</div>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Sin correlativas">Estado, derecho y legislación</div>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Sin correlativas">Principios de economía</div>
+</div>
+
+<div class="cuatrimestre">
+  <h2>1° Año – Segundo Cuatrimestre</h2>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Requiere: 01">Organización y gestión de la empresa turística</div>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Sin correlativas">Introducción a la matemática</div>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Requiere: 02">Espacios turísticos de África, Asia y Oceanía</div>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Sin correlativas">Procesos históricos mundiales</div>
+</div>
+
+<div class="cuatrimestre">
+  <h2>2° Año – Tercer Cuatrimestre</h2>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Requiere: 05">Servicios turísticos I</div>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Requiere: 02">Espacios turísticos de Europa</div>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Sin correlativas">Metodología de la investigación social</div>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Requiere: 08">Historia latinoamericana y argentina</div>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Requiere: 05">Organización y gestión hotelera</div>
+</div>
+
+<div class="cuatrimestre">
+  <h2>2° Año – Cuarto Cuatrimestre</h2>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Requiere: 09">Servicios turísticos II</div>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Requiere: 02">Espacios turísticos de América</div>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Requiere: 09, 13">Marketing turístico</div>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Requiere: 06">Indicadores turísticos</div>
+  <div class="materia" onclick="toggleEstado(this)" data-correlativas="Requiere: 01, 08">Historia del turismo</div>
+</div>
+
+
+  <script>
+    function toggleEstado(element) {
+      element.classList.toggle("completada");
+      const materias = document.querySelectorAll(".materia");
+      const estado = Array.from(materias).map(m => m.classList.contains("completada"));
+      localStorage.setItem("estadoMaterias", JSON.stringify(estado));
+    }
+    window.onload = function () {
+      const materias = document.querySelectorAll(".materia");
+      const estado = JSON.parse(localStorage.getItem("estadoMaterias") || "[]");
+      materias.forEach((m, i) => {
+        if (estado[i]) m.classList.add("completada");
+      });
+    };
+  </script>
+</body>
+</html>
